@@ -14,6 +14,8 @@ public class Mario implements IActor {
 	
 	private int x = 20;
 	private int y = 380;
+	private int lastY;
+	
 	private final static int MIN_X = 0;
 	private final static int MAX_X = 600-20;
 	
@@ -25,7 +27,7 @@ public class Mario implements IActor {
 	private EFields imageType = EFields.MARIOFIELD;
 
 	private boolean isAlive = true;
-	private boolean isMoving = false;
+	private boolean isInComleteMove = false;
 	
 	private KeyboardListener keyListener;
 	private MovementFactory movementFactory;
@@ -51,6 +53,9 @@ public class Mario implements IActor {
 	public void setY(int y) {
 		this.y = y;
 	}
+	public int getLastY() {
+		return lastY;
+	}
 	@Override
 	public boolean isAlive() {
 		return isAlive;
@@ -65,10 +70,6 @@ public class Mario implements IActor {
 		return ImageFactory.getImage(imageType);
 	}
 	
-	public boolean marioIssMoving(){
-		return isMoving;
-	}
-
 	public List<EMovement> getMarioSteps(){
 		if(keyListener.isKeyPressed(KeyEvent.VK_LEFT) && keyListener.isKeyPressed(KeyEvent.VK_UP))
 			return movementFactory.createMove(EMovement.DIAGONALLEFT,HOWMANYMOVES,HOWMANYMOVESINAIR);
@@ -79,12 +80,15 @@ public class Mario implements IActor {
 		else if(keyListener.isKeyPressed(KeyEvent.VK_RIGHT))
 			return movementFactory.createMove(EMovement.RIGHT);
 		else if(keyListener.isKeyPressed(KeyEvent.VK_UP)) 
-			return movementFactory.createMove(EMovement.UP,HOWMANYMOVES,HOWMANYMOVESINAIR);
+			return movementFactory.createMove(EMovement.UP,HOWMANYMOVES,HOWMANYMOVESINAIR);	
 		else 
 			return movementFactory.createMove();
 	}
+	
 	@Override
 	public void move(EMovement move) {
+		lastY = y;
+		
 		switch (move) {
 		case RIGHT:
 			x += VERTICAL_STEP_SIZE;

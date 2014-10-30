@@ -6,8 +6,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.characters.IActor;
 import com.characters.DuckMonster;
+import com.characters.IActor;
 import com.characters.Mario;
 import com.characters.Monster;
 import com.movement.EMovement;
@@ -23,7 +23,7 @@ public class GameRunnable implements Runnable {
 	
 	private List<EMovement> marioSteps;
 	private List<IActor> aliveMonsters;
-	private DeathZone deathZone;
+	private DeadZone deathZone;
 	
 	private JPanel gamePanel;
 	
@@ -57,7 +57,7 @@ public class GameRunnable implements Runnable {
 	
 	private void updateGame(){
 		marioSteps = mario.getMarioSteps();
-		
+
 		if(marioSteps.isEmpty()){
 			updateMonsters();
 			repaintAndSleep();	
@@ -68,8 +68,11 @@ public class GameRunnable implements Runnable {
 	}
 	
 	private void updateMarioAndMonsters(){
-		for (EMovement m : marioSteps) {
-			mario.move(m);
+		for (EMovement marioMove : marioSteps) {
+			if(!mario.isAlive())
+				break;
+			
+			mario.move(marioMove);
 			updateMonsters();
 			repaintAndSleep();
 		}
@@ -78,18 +81,22 @@ public class GameRunnable implements Runnable {
 
 	private void updateMonsters(){
 		for(IActor monsterCharacter : aliveMonsters)
-			monsterCharacter.move(EMovement.LEFT);
+			monsterCharacter.move(null);
+		
+		checkDeathZone();
 	}
 	
 	private void repaintAndSleep() {
-		checkDeathZone();
 		gamePanel.repaint();
 		sleep(SLEEPTIME);
 	}
 	
 	private void checkDeathZone() {
-		deathZone = new DeathZone(aliveMonsters, mario);
-		deathZone.checkCollision();
+		deathZone = new DeadZone(aliveMonsters, mario);
+		aliveMonsters =  deathZone.checkCollision();
+		
+		if(deathZone.isMarioDead())
+			mario.setAlive(false);
 	}
 	
 	private void sleep(long milisecond) {
