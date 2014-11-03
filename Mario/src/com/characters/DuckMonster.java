@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import com.core.EFields;
 import com.images.resource.ImageFactory;
-import com.movement.MonsterStepsList;
+import com.movement.CyclicList;
 import com.movement.EMovement;
 import com.movement.MovementFactory;
 
@@ -26,12 +26,12 @@ public class DuckMonster implements IActor{
 	private boolean changeTowards = false;
 	private boolean ifRightDirection=false;
 	
-	private MonsterStepsList<EMovement> monsterSteps;
+	private CyclicList<EMovement> monsterSteps;
 	private MovementFactory movementFactory;
 
 	public DuckMonster(){
 		movementFactory = new MovementFactory();
-		monsterSteps = new MonsterStepsList<EMovement>();
+		monsterSteps = new CyclicList<EMovement>();
 		addSteps(EMovement.DIAGONALLEFT);	
 	}
 	
@@ -89,7 +89,7 @@ public class DuckMonster implements IActor{
 				movementFactory.createMove(m,HOWMANYMOVES,HOWMANYMOVESINAIR));
 	}
 	
-	private void moveInChoosenTowards(MonsterStepsList<EMovement> moves) {
+	private void moveInChoosenTowards(CyclicList<EMovement> moves) {
 		switch (moves.get()) {
 		case DIAGONALLEFT:
 			x -= VERTICAL_STEP_SIZE;

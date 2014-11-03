@@ -2,7 +2,7 @@ package com.movement;
 
 import java.util.ArrayList;
 
-public class MonsterStepsList<E> extends ArrayList<E> {
+public class CyclicList<E> extends ArrayList<E> {
 
 	private static final long serialVersionUID = 1L;
 	private int count = -1;

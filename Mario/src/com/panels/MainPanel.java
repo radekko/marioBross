@@ -58,7 +58,7 @@ public class MainPanel extends JPanel{
 
 	private void drawMonster(Graphics2D g2d) {
 		for(IActor character : gameRunnable.getAliveMonsters())
-			g2d.drawImage(character.getImage() , character.getX(), character.getY(), this);
+			g2d.drawImage(character.getImage(), character.getX(), character.getY(), this);
 	}
 
 	private void drawBoard(Graphics2D g2d) {

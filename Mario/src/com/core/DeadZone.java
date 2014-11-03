@@ -12,7 +12,7 @@ public class DeadZone {
 	private Mario mario;
 	private int lenght;
 	//if mario is go down
-	private boolean marioIsInCompleteMove;
+	private boolean marioGoDown;
 	private boolean isMonsterDead;
 	private boolean isMarioDead = false;
 	
@@ -24,7 +24,7 @@ public class DeadZone {
 		this.aliveMonsters = aliveMonsters;
 		this.mario = mario;
 		this.lenght = mario.getImage().getHeight();
-		this.marioIsInCompleteMove = ( mario.getLastY()-mario.getY()>0 )? true : false;
+		this.marioGoDown = ( mario.getLastY()-mario.getY()>0 )? true : false;
 	}
 	
 	public List<IActor> checkCollision() {
@@ -38,7 +38,7 @@ public class DeadZone {
 			int Xmon = monsterCharacter.getX();
 			int Ymon = monsterCharacter.getY();
 			
-			if(chceckIfCollisionOnOX(Xmar,Ymar,Xmon,Ymon)){
+			if(ifCollisionOnOX(Xmar,Ymar,Xmon,Ymon)){
 				isMonsterDead = checkIfMarioHit(Xmar,Ymar,Xmon,Ymon);
 				isMarioDead = checkIfMarioIsDead(Xmar,Ymar,Xmon,Ymon);
 			}
@@ -54,20 +54,20 @@ public class DeadZone {
 		return aliveMonsters;
 	}
 	
-	private boolean chceckIfCollisionOnOX(int Xmar, int Ymar,int Xmon,int Ymon){
+	private boolean ifCollisionOnOX(int Xmar, int Ymar,int Xmon,int Ymon){
 		if(Xmar+lenght>=Xmon && Xmar+lenght<=Xmon+lenght || Xmon+lenght>=Xmar && Xmon+lenght<=Xmar+lenght)
 			return true;
 		return false;
 	}
 	
 	private boolean checkIfMarioHit(int Xmar, int Ymar,int Xmon,int Ymon){
-		if(Ymar<Ymon && Ymar+lenght>=Ymon && Ymar+lenght<=Ymon+lenght && marioIsInCompleteMove)
+		if(Ymar<Ymon && Ymar+lenght>=Ymon && Ymar+lenght<=Ymon+lenght && marioGoDown)
 			return true;
 		return false;
 	}
 	
 	private boolean checkIfMarioIsDead(int Xmar, int Ymar,int Xmon,int Ymon){
-		if(Ymar>=Ymon && Ymar<=Ymon+lenght && !marioIsInCompleteMove)
+		if(Ymar>=Ymon && Ymar<=Ymon+lenght && !marioGoDown)
 				return true;
 		return false;
 	}

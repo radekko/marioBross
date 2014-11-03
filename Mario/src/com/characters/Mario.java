@@ -23,11 +23,9 @@ public class Mario implements IActor {
 	private final static int HORIZONTAL_STEP_SIZE = 20;
 	private final int HOWMANYMOVES = 1;
 	private final int HOWMANYMOVESINAIR = 3;
+	private boolean isAlive = true;
 	
 	private EFields imageType = EFields.MARIOFIELD;
-
-	private boolean isAlive = true;
-	private boolean isInComleteMove = false;
 	
 	private KeyboardListener keyListener;
 	private MovementFactory movementFactory;
