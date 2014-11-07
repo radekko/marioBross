@@ -10,7 +10,6 @@ import com.characters.DuckMonster;
 import com.characters.IActor;
 import com.characters.Mario;
 import com.characters.Monster;
-import com.movement.EMovement;
 import com.panels.KeyboardListener;
 
 public class GameRunnable implements Runnable {
@@ -20,8 +19,7 @@ public class GameRunnable implements Runnable {
 	private Mario mario;
 	private Monster monster;
 	private DuckMonster duckMonster;
-	
-	private List<EMovement> marioSteps;
+
 	private List<IActor> aliveMonsters;
 	private DeadZone deathZone;
 	
@@ -56,34 +54,15 @@ public class GameRunnable implements Runnable {
 	}
 	
 	private void updateGame(){
-		marioSteps = mario.getMarioSteps();
-
-		if(marioSteps.isEmpty()){
-			updateMonsters();
-			repaintAndSleep();	
-		}
-		else
-			updateMarioAndMonsters();
-
+		updateMonsters();
+		mario.update();
+		//checkDeathZone();
+		repaintAndSleep();
 	}
 	
-	private void updateMarioAndMonsters(){
-		for (EMovement marioMove : marioSteps) {
-			if(!mario.isAlive())
-				break;
-			
-			mario.move(marioMove);
-			updateMonsters();
-			repaintAndSleep();
-		}
-		marioSteps.clear();
-	}
-
 	private void updateMonsters(){
 		for(IActor monsterCharacter : aliveMonsters)
-			monsterCharacter.move(null);
-		
-		checkDeathZone();
+			monsterCharacter.update();	
 	}
 	
 	private void repaintAndSleep() {

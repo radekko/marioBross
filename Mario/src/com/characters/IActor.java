@@ -2,7 +2,7 @@ package com.characters;
 
 import java.awt.image.BufferedImage;
 
-import com.movement.EMovement;
+import com.movement.EMovementTowards;
 
 
 public interface IActor {
@@ -10,7 +10,7 @@ public interface IActor {
 	void setX(int x);
 	int getY();
 	void setY(int y);
-	void move(EMovement m);
+	void update();
 	
 	BufferedImage getImage();
 	
